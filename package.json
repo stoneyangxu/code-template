@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon src/**/*.js --exec babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf lib && babel src --out-dir lib"
+    "build": "rm -rf lib && babel src --out-dir lib",
+    "lint": "eslint src --fix"
   },
   "bin": {
     "ct": "./bin/code-template.js"
@@ -35,6 +36,9 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "nodemon": "^1.12.1"
   }
 }
