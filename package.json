@@ -1,0 +1,32 @@
+{
+  "name": "code-template",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ct": "./bin/code-template.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stoneyangxu/code-template.git"
+  },
+  "author": "stoneyangxu <stoneyangxu@icloud.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stoneyangxu/code-template/issues"
+  },
+  "homepage": "https://github.com/stoneyangxu/code-template#readme",
+  "files": [
+    "lib",
+    "src",
+    "boilerplates",
+    "bin"
+  ],
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "commander": "^2.12.1"
+  }
+}
