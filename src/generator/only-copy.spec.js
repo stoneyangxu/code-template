@@ -5,7 +5,6 @@ require('chai').should();
 const fs = require('fs');
 
 describe('onlyCopy', () => {
-
   const tempFile = './boilerplates/copy/tempFile';
   const tempFileWithDot = './boilerplates/copy/.tempFileWithDot';
 
@@ -20,7 +19,6 @@ describe('onlyCopy', () => {
   });
 
   it('should copy .editorconfig file to ./temp path', () => {
-
     const resultPath = './temp/tempFile';
 
     onlyCopy('tempFile', './temp');
@@ -30,7 +28,6 @@ describe('onlyCopy', () => {
   });
 
   it('should copy .tempFileWithDot file to ./temp path with `.`', () => {
-
     const resultPath = './temp/.tempFileWithDot';
 
     onlyCopy('tempFileWithDot', './temp');
@@ -38,5 +35,4 @@ describe('onlyCopy', () => {
     fs.existsSync(resultPath).should.equal(true);
     fs.unlinkSync(resultPath);
   });
-
 });

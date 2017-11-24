@@ -2,7 +2,7 @@
 
 require('chai').should();
 
-describe('NAME', () => {
+describe('{{name}}', () => {
   it('should run', () => {
     true.should.equal(true);
   });

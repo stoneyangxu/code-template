@@ -1,7 +1,6 @@
 import { copyToNewFile } from '../utils/copy-utils';
-
-const path = require('path');
+import { buildPath } from '../utils/boilerplates';
 
 export default function copyAndRename(pathInTemplate, newName, destPath) {
-  copyToNewFile(path.resolve(__dirname, '../../boilerplates/', pathInTemplate), newName, destPath);
+  copyToNewFile(buildPath(pathInTemplate), newName, destPath);
 }
