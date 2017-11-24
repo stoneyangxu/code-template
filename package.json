@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/**/*.js --exec babel src --out-dir lib",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require babel-register -w src/**/*.spec.js",
     "build": "rm -rf lib && babel src --out-dir lib",
     "lint": "eslint src --fix"
   },
@@ -36,9 +36,13 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
     "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "nodemon": "^1.12.1"
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "sinon": "^4.1.2"
   }
 }
