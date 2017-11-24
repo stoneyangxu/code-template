@@ -1,11 +1,10 @@
 /* eslint-env mocha */
-import copyTo from './copy-utils';
+import { copyTo } from './copy-utils';
 
 require('chai').should();
 const fs = require('fs');
 
 describe('copyTo', () => {
-
   it('should return false when source not exist', () => {
     const result = copyTo('./not-exist');
     result.should.equal(false);

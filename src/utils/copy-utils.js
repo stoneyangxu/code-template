@@ -3,7 +3,7 @@ import { info, error } from './log';
 const path = require('path');
 const fs = require('fs');
 
-function copyTo(source, destPath = '.') {
+function copyToNewFile(source, newName, destPath = '.') {
   if (!fs.existsSync(source)) {
     error(`template file not exist: ${source}`);
     return false;
@@ -16,10 +16,14 @@ function copyTo(source, destPath = '.') {
     return false;
   }
 
-  info(`copy ${source} to ${absolutePath}`);
+  info(`copy ${source} to ${absolutePath}/${newName}`);
 
-  fs.copyFileSync(source, path.resolve(absolutePath, path.basename(source)));
+  fs.copyFileSync(source, path.resolve(absolutePath, newName));
   return true;
 }
 
-export default copyTo;
+function copyTo(source, destPath = '.') {
+  return copyToNewFile(source, path.basename(source), destPath);
+}
+
+export { copyTo, copyToNewFile };

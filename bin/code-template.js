@@ -3,7 +3,7 @@
 
 const program = require('commander');
 const chalk = require('chalk');
-const genEditorConfig = require('../lib/generator/gen-editorconfig').default
+const genEditorConfig = require('../lib/generator').default;
 
 program
   .usage('<command> [options]')
@@ -11,17 +11,17 @@ program
   .parse(process.argv);
 
 
-console.log(chalk.blue(JSON.stringify(program.args)))
+console.log(chalk.blue(JSON.stringify(program.args)));
 
-const argv = program.args
+const argv = program.args;
 
 if (argv.length < 2) {
-  program.help()
-  process.exit(0)
+  program.help();
+  process.exit(0);
 }
 
-if (argv[0] === 'g' && argv[1] === 'editorconfig') {
-  genEditorConfig(argv[2])
+if (argv[0] === 'g') {
+  genEditorConfig(argv.slice(1));
 }
 
 function printHelp() {
