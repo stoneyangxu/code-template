@@ -1,21 +1,27 @@
-import cmdPaths from './generator-path'
-import { error, info } from '../utils/log'
+import cmdPaths from './generator-path';
+import { error, info } from '../utils/log';
 
 const fs = require('fs');
 
+export function printGeneratorHelper() {
+  info('Available generator commands: ');
+  cmdPaths.forEach(({ cmd, desc }) => {
+    info(`\t${cmd} - ${desc}`);
+  });
+}
+
 export function getCmdConfig(cmd) {
-  return cmdPaths.find((config) => {
-    return config.cmd === cmd
-  })
+  return cmdPaths.find(config => config.cmd === cmd);
 }
 
 export function isValidConfig(cmdConfig) {
   if (!cmdConfig) {
     error('invalid command config', cmdConfig);
+    printGeneratorHelper();
     return false;
   }
 
-  const path = cmdConfig.path;
+  const { path } = cmdConfig;
   if (!path || !fs.existsSync(path)) {
     error('invalid file path', cmdConfig);
     return false;

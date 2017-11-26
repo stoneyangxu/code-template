@@ -28,7 +28,7 @@ function copyTo(source, destPath = '.') {
 
 function writeTo(content, filename, destPath = '.') {
   const absolutePath = path.resolve(destPath, filename);
-  info(`write to ${absolutePath}`)
+  info(`write to ${absolutePath}`);
   fs.writeFileSync(absolutePath, content);
 }
 

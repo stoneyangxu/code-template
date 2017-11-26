@@ -1,5 +1,6 @@
 import Mustache from 'mustache';
-import {info} from '../utils/log'
+import { info } from '../utils/log';
+
 const path = require('path');
 const fs = require('fs');
 
@@ -14,7 +15,7 @@ export function compile(templateFile, data) {
 }
 
 export function buildFileName(filePath, name) {
-  const fileName = path.basename(filePath).replace('.mustache', '')
+  const fileName = path.basename(filePath).replace('.mustache', '');
   return Mustache.render(fileName, { name });
 }
 

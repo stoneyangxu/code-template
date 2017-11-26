@@ -1,15 +1,20 @@
 import * as types from './cmd-types';
-
-const path = require('path')
-const boilerplates = path.resolve(__dirname, '../../boilerplates')
+import { buildPath } from '../utils/boilerplates';
 
 export default [
   {
     cmd: types.EDITORCONFIG,
-    path: path.resolve(boilerplates, 'copy/.editorconfig')
+    path: buildPath('basic/.editorconfig'),
+    desc: 'Basic .editorconfig file',
   },
   {
     cmd: types.TEST,
-    path: path.resolve(boilerplates, 'test/{{name}}.spec.mustache.js')
-  }
-]
+    path: buildPath('test/{{name}}.spec.mustache.js'),
+    desc: 'Test template with chai',
+  },
+  {
+    cmd: types.REDUX_THUNK_STORE,
+    path: buildPath('redux/store.js'),
+    desc: 'Basic store.js base on redux and redux-thunk',
+  },
+];
