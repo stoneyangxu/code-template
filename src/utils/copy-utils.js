@@ -26,4 +26,10 @@ function copyTo(source, destPath = '.') {
   return copyToNewFile(source, path.basename(source), destPath);
 }
 
-export { copyTo, copyToNewFile };
+function writeTo(content, filename, destPath = '.') {
+  const absolutePath = path.resolve(destPath, filename);
+  info(`write to ${absolutePath}`)
+  fs.writeFileSync(absolutePath, content);
+}
+
+export { copyTo, copyToNewFile, writeTo };

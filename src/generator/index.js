@@ -1,22 +1,21 @@
-import onlyCopy from './only-copy';
-import copyAndRename from './copy-and-rename';
-import { compileToFile } from '../utils/boilerplates';
+import { compileToFile, compile, buildFileName} from '../utils/boilerplates';
+
+import { getCmdConfig, isMustache, isValidConfig } from './helper'
+import { copyTo, writeTo } from '../utils/copy-utils';
+
 
 const fs = require('fs');
 
-const cmdList = [
-  'test',
-];
 
 export default function ([cmd, ...params]) {
   console.log(cmd, params);
-  if (cmdList.indexOf(cmd) !== -1) {
-    if (cmd === 'test') {
-      // copyAndRename('test/mocha.spec.js', `${params[0]}.spec.js`, params[1]);
-
-      compileToFile('test/mocha.mustache.js', { name: params[0] }, `${params[0]}.spec.js`)
-    }
-  } else {
-    onlyCopy(cmd, params[1]);
+  const config = getCmdConfig(cmd);
+  console.log(config)
+  if (isMustache(config)) {
+    const compiled = compile(config.path, { name: params[0] })
+    const newName = buildFileName(config.path, params[0])
+    writeTo(compiled, newName, params[1])
+  } else if (isValidConfig(cmd)) {
+    copyTo(config.path, params[0]);
   }
 }
