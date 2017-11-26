@@ -60,3 +60,4 @@ typings/
 # result files
 temp
 lib
+coverage

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon src/**/*.js --exec babel src --out-dir lib",
     "test": "mocha --require babel-register -w src/**/*.spec.js",
+    "coverage": "nyc --reporter=html --reporter=text mocha --require babel-register src/**/*.js",
     "build": "rm -rf lib && babel src --out-dir lib",
     "lint": "eslint src --fix"
   },
@@ -28,6 +29,13 @@
     "boilerplates",
     "bin"
   ],
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "build",
+      "lib"
+    ]
+  },
   "dependencies": {
     "chalk": "^2.3.0",
     "commander": "^2.12.1",
@@ -44,6 +52,7 @@
     "eslint-plugin-import": "^2.8.0",
     "mocha": "^4.0.1",
     "nodemon": "^1.12.1",
+    "nyc": "^11.3.0",
     "sinon": "^4.1.2"
   }
 }
