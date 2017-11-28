@@ -1,16 +1,28 @@
-import { compile, buildFileName } from '../utils/boilerplates';
-
-import { getCmdConfig, isMustache, isValidConfig } from './helper';
+import { compile, buildFileName, compilePath } from '../utils/boilerplates';
+import { info } from '../utils/log';
+import { getCmdConfig, buildPathAndName } from './helper';
 import { copyTo, writeTo } from '../utils/copy-utils';
+
+const path = require('path');
 
 export default function ([cmd, ...params]) {
   console.log(cmd, params);
+
   const config = getCmdConfig(cmd);
-  if (isMustache(config)) {
-    const compiled = compile(config.path, { name: params[0] });
-    const newName = buildFileName(config.path, params[0]);
-    writeTo(compiled, newName, params[1]);
-  } else if (isValidConfig(config)) {
-    copyTo(config.path, params[0]);
-  }
+  const { pathName, fileName } = buildPathAndName(config, params);
+
+  info(`name: ${fileName}, target path: ${pathName}, template: ${config.templatePath}`);
+  // copy to target path
+  copyTo(config.templatePath, pathName, fileName);
+
+  // if (isMustache(config)) {
+
+  //   compilePath(config.templatePath, {fileName})
+
+  //   // const compiled = compile(config.path, { name: fileName });
+  //   // const newName = buildFileName(config.path, fileName);
+  //   // writeTo(compiled, newName, pathName);
+  // } else if (isValidConfig(config)) {
+  //   copyTo(config.path, fileName, pathName);
+  // }
 }

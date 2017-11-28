@@ -61,3 +61,4 @@ typings/
 temp
 lib
 coverage
+**/.DS_Store

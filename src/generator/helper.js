@@ -2,6 +2,7 @@ import cmdPaths from './generator-path';
 import { error, info } from '../utils/log';
 
 const fs = require('fs');
+const path = require('path');
 
 export function printGeneratorHelper() {
   info('Available generator commands: ');
@@ -21,9 +22,9 @@ export function isValidConfig(cmdConfig) {
     return false;
   }
 
-  const { path } = cmdConfig;
-  if (!path || !fs.existsSync(path)) {
-    error('invalid file path', cmdConfig);
+  const { templatePath } = cmdConfig;
+  if (!templatePath || !fs.existsSync(templatePath)) {
+    error('invalid file path', templatePath, JSON.stringify(cmdConfig));
     return false;
   }
 
@@ -35,5 +36,31 @@ export function isMustache(cmdConfig) {
     return false;
   }
 
-  return cmdConfig.path.includes('.mustache.');
+  return cmdConfig.templatePath.includes('.mustache.') || cmdConfig.templatePath.endsWith('.mustache');
+}
+
+export function parsePathAndName(pathAndName) {
+  if (!pathAndName.endsWith(path.sep)) { // 结尾为新文件名或新目录名
+    return {
+      pathName: path.dirname(pathAndName),
+      fileName: path.basename(pathAndName),
+    };
+  } // 结尾为目标目录
+  return {
+    pathName: path.resolve(pathAndName),
+  };
+}
+
+export function buildPathAndName(config, params) {
+  let pathName = path.resolve('.');
+  let fileName = path.basename(config.templatePath);
+
+  // parse target path and new filename(name)
+  if (params[0]) {
+    const pathAndName = parsePathAndName(params[0]);
+    pathName = pathAndName.pathName;
+    fileName = pathAndName.fileName || fileName;
+  }
+
+  return { pathName, fileName };
 }

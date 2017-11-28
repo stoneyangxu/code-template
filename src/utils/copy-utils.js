@@ -2,34 +2,33 @@ import { info, error } from './log';
 
 const path = require('path');
 const fs = require('fs');
+const fse = require('fs-extra');
+const mkdirp = require('mkdirp');
+const rimraf = require('rimraf');
 
-function copyToNewFile(source, newName, destPath = '.') {
+function createPathIfNotExist(dir) {
+  if (!fs.existsSync(dir)) {
+    info(`creating ${dir}`);
+    mkdirp.sync(dir);
+  }
+}
+
+function copyTo(source, destPath, fileName) {
+  createPathIfNotExist(destPath);
+
   if (!fs.existsSync(source)) {
     error(`template file not exist: ${source}`);
     return false;
   }
 
-  const absolutePath = path.resolve(destPath);
+  const absolutePath = path.resolve(destPath, fileName || path.basename(source));
 
-  if (!fs.existsSync(absolutePath)) {
-    error(`target path not exist: ${absolutePath}`);
-    return false;
-  }
+  rimraf.sync(absolutePath);
 
-  info(`copy ${source} to ${absolutePath}/${newName}`);
+  info(`copy ${source} to ${absolutePath}`);
 
-  fs.copyFileSync(source, path.resolve(absolutePath, newName));
+  fse.copySync(source, absolutePath);
   return true;
 }
 
-function copyTo(source, destPath = '.') {
-  return copyToNewFile(source, path.basename(source), destPath);
-}
-
-function writeTo(content, filename, destPath = '.') {
-  const absolutePath = path.resolve(destPath, filename);
-  info(`write to ${absolutePath}`);
-  fs.writeFileSync(absolutePath, content);
-}
-
-export { copyTo, copyToNewFile, writeTo };
+export { copyTo, createPathIfNotExist };
