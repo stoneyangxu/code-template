@@ -1,4 +1,4 @@
-import { compile, buildFileName, compilePath } from '../utils/boilerplates';
+import { compile, buildFileName, compilePath, walkSync } from '../utils/boilerplates';
 import { info } from '../utils/log';
 import { getCmdConfig, buildPathAndName } from './helper';
 import { copyTo, writeTo } from '../utils/copy-utils';
@@ -13,7 +13,15 @@ export default function ([cmd, ...params]) {
 
   info(`name: ${fileName}, target path: ${pathName}, template: ${config.templatePath}`);
   // copy to target path
-  copyTo(config.templatePath, pathName, fileName);
+  const target = copyTo(config.templatePath, pathName, fileName);
+
+  if (!target) {
+    return
+  }
+
+  walkSync(target, (file) => {
+    console.log(file);
+  })
 
   // if (isMustache(config)) {
 

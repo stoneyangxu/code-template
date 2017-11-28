@@ -33,3 +33,15 @@ export function buildFileName(filePath, data) {
 export function compileToFile(templateFile, data, targetFile) {
   fs.writeFileSync(targetFile, compile(templateFile, data));
 }
+
+export function walkSync(dir, func) {
+  var files = fs.readdirSync(dir);
+  files.forEach(function(file) {
+    if (fs.statSync(dir + '/' + file).isDirectory()) {
+      walkSync(dir + '/' + file + '/', func);
+    }
+    else {
+      func(path.resolve(dir, file));
+    }
+  });
+};

@@ -18,7 +18,6 @@ function copyTo(source, destPath, fileName) {
 
   if (!fs.existsSync(source)) {
     error(`template file not exist: ${source}`);
-    return false;
   }
 
   const absolutePath = path.resolve(destPath, fileName || path.basename(source));
@@ -28,7 +27,7 @@ function copyTo(source, destPath, fileName) {
   info(`copy ${source} to ${absolutePath}`);
 
   fse.copySync(source, absolutePath);
-  return true;
+  return absolutePath;
 }
 
 export { copyTo, createPathIfNotExist };
