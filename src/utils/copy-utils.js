@@ -1,4 +1,4 @@
-import { info, error } from './log';
+import { info, error, step } from './log';
 
 const path = require('path');
 const fs = require('fs');
@@ -24,7 +24,7 @@ export function copyTo(source, destPath, fileName) {
 
   rimraf.sync(absolutePath);
 
-  info(`copy ${source} to ${absolutePath}`);
+  step(`copy ${source} to ${absolutePath}`);
 
   fse.copySync(source, absolutePath);
   return absolutePath;

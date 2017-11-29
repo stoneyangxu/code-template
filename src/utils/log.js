@@ -11,9 +11,15 @@ function info(...args) {
   console.log(chalk.green(args));
 }
 
+function step(...args) {
+  // eslint-disable-next-line no-console
+  console.log(chalk.bgYellow(args));
+}
+
+
 function error(...args) {
   // eslint-disable-next-line no-console
   console.log(chalk.red(args));
 }
 
-export { log, info, error };
+export { log, info, error, step };

@@ -1,13 +1,17 @@
-import { compile, buildFileName, compilePath, walkSync, replaceMustacheFileName, addSurfix } from '../utils/boilerplates';
+import { compile, walkSync, replaceMustacheFileName, addSurfix } from '../utils/boilerplates';
 import { info } from '../utils/log';
 import { getCmdConfig, buildPathAndName } from './helper';
 import { copyTo, writeTo } from '../utils/copy-utils';
 
-const path = require('path');
+const fs = require('fs');
+
+function compileFile(file, data) {
+  const newFilePath = replaceMustacheFileName(file, data);
+  const compiled = compile(newFilePath, data);
+  writeTo(compiled, newFilePath);
+}
 
 export default function ([cmd, ...params]) {
-  console.log(cmd, params);
-
   const config = getCmdConfig(cmd);
   const { pathName, fileName } = buildPathAndName(config, params);
 
@@ -16,27 +20,14 @@ export default function ([cmd, ...params]) {
   const target = copyTo(config.templatePath, pathName, fileName);
 
   if (!target) {
-    return
+    return;
   }
 
-  const data = addSurfix({ name: fileName })
-  info(`compile data is ${JSON.stringify(data)}`)
+  const data = addSurfix({ name: fileName });
 
-  walkSync(target, (file) => {
-    const newFilePath = replaceMustacheFileName(file, data);
-    info(newFilePath)
-    const compiled = compile(newFilePath, data)
-    writeTo(compiled, newFilePath);
-  })
-
-  // if (isMustache(config)) {
-
-  //   compilePath(config.templatePath, {fileName})
-
-  //   // const compiled = compile(config.path, { name: fileName });
-  //   // const newName = buildFileName(config.path, fileName);
-  //   // writeTo(compiled, newName, pathName);
-  // } else if (isValidConfig(config)) {
-  //   copyTo(config.path, fileName, pathName);
-  // }
+  if (fs.statSync(target).isDirectory()) {
+    walkSync(target, file => compileFile(file, data));
+  } else {
+    compileFile(target, data);
+  }
 }

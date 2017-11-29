@@ -1,7 +1,6 @@
 import cmdPaths from './generator-path';
-import { error, info } from '../utils/log';
+import { info } from '../utils/log';
 
-const fs = require('fs');
 const path = require('path');
 
 export function printGeneratorHelper() {
@@ -13,30 +12,6 @@ export function printGeneratorHelper() {
 
 export function getCmdConfig(cmd) {
   return cmdPaths.find(config => config.cmd === cmd);
-}
-
-export function isValidConfig(cmdConfig) {
-  if (!cmdConfig) {
-    error('invalid command config', cmdConfig);
-    printGeneratorHelper();
-    return false;
-  }
-
-  const { templatePath } = cmdConfig;
-  if (!templatePath || !fs.existsSync(templatePath)) {
-    error('invalid file path', templatePath, JSON.stringify(cmdConfig));
-    return false;
-  }
-
-  return true;
-}
-
-export function isMustache(cmdConfig) {
-  if (!isValidConfig(cmdConfig)) {
-    return false;
-  }
-
-  return cmdConfig.templatePath.includes('.mustache.') || cmdConfig.templatePath.endsWith('.mustache');
 }
 
 export function parsePathAndName(pathAndName) {
@@ -52,15 +27,15 @@ export function parsePathAndName(pathAndName) {
 }
 
 export function buildPathAndName(config, params) {
-  let pathName = path.resolve('.');
-  let fileName = path.basename(config.templatePath);
-
-  // parse target path and new filename(name)
   if (params[0]) {
-    const pathAndName = parsePathAndName(params[0]);
-    pathName = pathAndName.pathName;
-    fileName = pathAndName.fileName || fileName;
+    const { pathName, fileName } = parsePathAndName(params[0]);
+    return {
+      pathName,
+      fileName: fileName || path.basename(config.templatePath),
+    };
   }
-
-  return { pathName, fileName };
+  return {
+    pathName: path.resolve('.'),
+    fileName: path.basename(config.templatePath),
+  };
 }
