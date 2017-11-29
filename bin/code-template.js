@@ -27,9 +27,7 @@ if (argv[0] === 'g') {
 function printHelp() {
   console.log('  Commands:');
   console.log();
-  console.log('    init           Init a new dva application in the current folder');
-  console.log('    new            Creates a new application');
-  console.log('    generate       Generates new code (short-cut alias: "g")');
+  console.log('    g       Generates new code base on boilerplates');
   console.log();
   console.log('  All commands can be run with -h (or --help) for more information.')
 }

@@ -1,6 +1,6 @@
 import { compile, walkSync, replaceMustacheFileName, addSurfix } from '../utils/boilerplates';
 import { info } from '../utils/log';
-import { getCmdConfig, buildPathAndName } from './helper';
+import { getCmdConfig, buildPathAndName, printGeneratorHelper } from './helper';
 import { copyTo, writeTo } from '../utils/copy-utils';
 
 const fs = require('fs');
@@ -13,6 +13,12 @@ function compileFile(file, data) {
 
 export default function ([cmd, ...params]) {
   const config = getCmdConfig(cmd);
+
+  if (!config) {
+    printGeneratorHelper();
+    return;
+  }
+
   const { pathName, fileName } = buildPathAndName(config, params);
 
   info(`name: ${fileName}, target path: ${pathName}, template: ${config.templatePath}`);
