@@ -11,7 +11,7 @@ export default (state = [], action) => {
         },
         ...state
       ]
-    case ActionTypes.REMOVE_name_{{name_upper}}:
+    case ActionTypes.REMOVE_{{name_upper}}:
       return state.filter({{name}} => {{name}}.id !== action.id)
     default:
       return state

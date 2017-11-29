@@ -6,14 +6,14 @@ const fse = require('fs-extra');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 
-function createPathIfNotExist(dir) {
+export function createPathIfNotExist(dir) {
   if (!fs.existsSync(dir)) {
     info(`creating ${dir}`);
     mkdirp.sync(dir);
   }
 }
 
-function copyTo(source, destPath, fileName) {
+export function copyTo(source, destPath, fileName) {
   createPathIfNotExist(destPath);
 
   if (!fs.existsSync(source)) {
@@ -30,4 +30,6 @@ function copyTo(source, destPath, fileName) {
   return absolutePath;
 }
 
-export { copyTo, createPathIfNotExist };
+export function writeTo(content, destFile) {
+  fs.writeFileSync(destFile, content);
+}

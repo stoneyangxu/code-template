@@ -8,8 +8,13 @@ export function buildPath(relativePath) {
   return path.resolve(__dirname, '../../boilerplates/', relativePath);
 }
 
+export function replaceMustacheFileName(filePath, data) {
+  const newPath = Mustache.render(filePath, data);
+  fs.renameSync(filePath, newPath);
+  return newPath;
+}
+
 export function compilePath(templatePath, data) {
-  console.log('--', templatePath, fs.lstatSync(templatePath).isDirectory());
   if (fs.lstatSync(templatePath).isDirectory()) {
     fs.readdirSync(templatePath).forEach(file => console.log(file));
   } else {
@@ -21,7 +26,7 @@ export function compilePath(templatePath, data) {
 
 export function compile(templateFile, data) {
   const content = fs.readFileSync(buildPath(templateFile)).toString();
-  info(content);
+  info(`compiling ${templateFile}`);
   return Mustache.render(content, data);
 }
 
@@ -45,3 +50,45 @@ export function walkSync(dir, func) {
     }
   });
 };
+
+function upper(func) {
+  return () => {
+    return func().toUpperCase();
+  }
+}
+
+function camel(func) {
+  return () => {
+    return toCamelCase(func());
+  }
+}
+
+
+function toCamelCase(str) {
+  if (!str || str.length === 0) {
+    return "";
+  } else {
+    return str.substr(0, 1).toUpperCase() + str.substr(1);
+  }
+}
+
+export function addSurfix(data) {
+  const newData = {};
+
+  for (let key in data) {
+
+    const prop = data[key];
+
+    newData[key] = data[key]
+
+    if (typeof prop === 'function') {
+      newData[key + '_upper'] = upper(data[key])
+      newData[key + '_camel'] = camel(data[key])
+    } else {
+      newData[key + '_upper'] = data[key].toUpperCase();
+      newData[key + '_camel'] = toCamelCase(data[key])
+    }
+
+    return newData;
+  }
+}
