@@ -15,15 +15,16 @@ export function getCmdConfig(cmd) {
 }
 
 export function parsePathAndName(pathAndName) {
-  if (!pathAndName.endsWith(path.sep)) { // 结尾为新文件名或新目录名
+  if (!pathAndName.endsWith(path.sep)) {
     return {
       pathName: path.dirname(pathAndName),
       fileName: path.basename(pathAndName),
     };
-  } // 结尾为目标目录
-  return {
-    pathName: path.resolve(pathAndName),
-  };
+  } else {
+    return {
+      pathName: path.resolve(pathAndName),
+    };
+  }
 }
 
 export function buildPathAndName(config, params) {
