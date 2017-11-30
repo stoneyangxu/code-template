@@ -20,11 +20,10 @@ export function parsePathAndName(pathAndName) {
       pathName: path.dirname(pathAndName),
       fileName: path.basename(pathAndName),
     };
-  } else {
-    return {
-      pathName: path.resolve(pathAndName),
-    };
   }
+  return {
+    pathName: path.resolve(pathAndName),
+  };
 }
 
 export function buildPathAndName(config, params) {

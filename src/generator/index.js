@@ -8,7 +8,7 @@ const fs = require('fs');
 function compileFile(file, data) {
   const newFilePath = replaceMustacheFileName(file, data);
   const compiled = compile(newFilePath, data);
-  writeTo(compiled, newFilePath);
+  writeTo(newFilePath, compiled);
 }
 
 export default function ([cmd, ...params]) {

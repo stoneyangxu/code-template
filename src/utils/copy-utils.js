@@ -17,7 +17,8 @@ export function copyTo(source, destPath, fileName) {
   createPathIfNotExist(destPath);
 
   if (!fs.existsSync(source)) {
-    error(`template file not exist: ${source}`);
+    error(`source file not exist: ${source}`);
+    return source;
   }
 
   const absolutePath = path.resolve(destPath, fileName || path.basename(source));

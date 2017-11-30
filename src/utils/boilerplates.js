@@ -20,11 +20,6 @@ export function compile(templateFile, data) {
   return Mustache.render(content, data);
 }
 
-export function buildFileName(filePath, data) {
-  const fileName = path.basename(filePath).replace('.mustache', '');
-  return Mustache.render(fileName, data);
-}
-
 export function compileToFile(templateFile, data, targetFile) {
   fs.writeFileSync(targetFile, compile(templateFile, data));
 }
