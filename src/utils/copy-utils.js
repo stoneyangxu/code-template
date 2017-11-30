@@ -31,6 +31,6 @@ export function copyTo(source, destPath, fileName) {
   return absolutePath;
 }
 
-export function writeTo(content, destFile) {
+export function writeTo(destFile, content) {
   fs.writeFileSync(destFile, content);
 }
