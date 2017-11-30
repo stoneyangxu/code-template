@@ -26,9 +26,9 @@ export function parsePathAndName(pathAndName) {
   };
 }
 
-export function buildPathAndName(config, params) {
-  if (params[0]) {
-    const { pathName, fileName } = parsePathAndName(params[0]);
+export function buildPathAndName(config, targetPath) {
+  if (targetPath) {
+    const { pathName, fileName } = parsePathAndName(targetPath);
     return {
       pathName,
       fileName: fileName || path.basename(config.templatePath),
