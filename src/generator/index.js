@@ -1,15 +1,7 @@
-import { compile, walkSync, replaceMustacheFileName, addSurfix } from '../utils/boilerplates';
+import { warkSyncAndCompile, addSurfix } from '../utils/boilerplates';
 import { info } from '../utils/log';
 import { getCmdConfig, buildPathAndName, printGeneratorHelper } from './helper';
-import { copyTo, writeTo } from '../utils/copy-utils';
-
-const fs = require('fs');
-
-function compileFile(file, data) {
-  const newFilePath = replaceMustacheFileName(file, data);
-  const compiled = compile(newFilePath, data);
-  writeTo(newFilePath, compiled);
-}
+import { copyTo } from '../utils/copy-utils';
 
 export default function ([cmd, ...params]) {
   const config = getCmdConfig(cmd);
@@ -19,21 +11,15 @@ export default function ([cmd, ...params]) {
     return;
   }
 
-  const { pathName, fileName } = buildPathAndName(config, params);
+  const { pathName, fileName } = buildPathAndName(config, params[0]);
 
   info(`name: ${fileName}, target path: ${pathName}, template: ${config.templatePath}`);
   // copy to target path
   const target = copyTo(config.templatePath, pathName, fileName);
-
   if (!target) {
     return;
   }
 
   const data = addSurfix({ name: fileName });
-
-  if (fs.statSync(target).isDirectory()) {
-    walkSync(target, file => compileFile(file, data));
-  } else {
-    compileFile(target, data);
-  }
+  warkSyncAndCompile(target, data);
 }
