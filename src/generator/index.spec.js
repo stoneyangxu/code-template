@@ -1,10 +1,11 @@
 /* eslint-env mocha */
 import generate from './index';
+
 require('chai').should();
 const path = require('path');
 const fs = require('fs');
 
-const TEST_PATH = path.resolve('./temp/')
+const TEST_PATH = path.resolve('./temp/');
 
 describe('index.spec.js', () => {
   it('should generate editorconfig in current dir', () => {
@@ -20,6 +21,4 @@ describe('index.spec.js', () => {
   it('should print not exist command', () => {
     generate(['not-exist-command']);
   });
-
-
 });
