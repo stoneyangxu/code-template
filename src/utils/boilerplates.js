@@ -15,7 +15,6 @@ export function replaceMustacheFileName(filePath, data) {
   return newPath;
 }
 
-
 function toCamelCase(str) {
   if (!str || str.length === 0) {
     return '';
