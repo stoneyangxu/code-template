@@ -8,7 +8,7 @@ const {{name_camel}}List = ({ {{name}}s, onRemove }) => {
   return (
     <ul>
       {
-        {{name}}s.map(todo => (
+        {{name}}s.map({{name}} => (
           <{{name_camel}}Item
             key={ {{name}}.id }
             text={ {{name}}.text }
@@ -20,9 +20,9 @@ const {{name_camel}}List = ({ {{name}}s, onRemove }) => {
   );
 }
 
-function mapStateToProps(state = [], ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
-    todos: state.{{name}}s
+    {{name}}s: state.{{name}}s
   };
 }
 

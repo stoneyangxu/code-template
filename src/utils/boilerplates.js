@@ -4,6 +4,7 @@ import { writeTo } from './copy-utils';
 
 const path = require('path');
 const fs = require('fs');
+const fse = require('fs-extra');
 
 export function buildPath(relativePath) {
   return path.resolve(__dirname, '../../boilerplates/', relativePath);
@@ -11,7 +12,7 @@ export function buildPath(relativePath) {
 
 export function replaceMustacheFileName(filePath, data) {
   const newPath = Mustache.render(filePath, data);
-  fs.renameSync(filePath, newPath);
+  fse.moveSync(filePath, newPath);
   return newPath;
 }
 
@@ -64,23 +65,25 @@ function compileFile(file, data) {
   const newFilePath = replaceMustacheFileName(file, data);
   const compiled = compile(newFilePath, data);
   writeTo(newFilePath, compiled);
+  return newFilePath;
 }
 
 export function walkSync(dir, func) {
   const files = fs.readdirSync(dir);
   files.forEach((file) => {
-    if (fs.statSync(`${dir}/${file}`).isDirectory()) {
-      walkSync(`${dir}/${file}/`, func);
-    } else {
+    if (!fs.statSync(`${dir}/${file}`).isDirectory()) {
       func(path.resolve(dir, file));
+    } else {
+      walkSync(`${dir}/${file}/`, func);
     }
   });
 }
 
 export function warkSyncAndCompile(targetPath, data) {
-  if (fs.statSync(targetPath).isDirectory()) {
-    walkSync(targetPath, templateFile => compileFile(templateFile, data));
+  const replacedPath = replaceMustacheFileName(targetPath, data);
+  if (!fs.statSync(replacedPath).isDirectory()) {
+    compileFile(replacedPath, data);
   } else {
-    compileFile(targetPath, data);
+    walkSync(replacedPath, templateFile => compileFile(templateFile, data));
   }
 }
