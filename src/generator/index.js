@@ -1,6 +1,6 @@
 import { warkSyncAndCompile, addSurfix } from '../utils/boilerplates';
 import { info } from '../utils/log';
-import { getCmdConfig, buildPathAndName, printGeneratorHelper } from './helper';
+import { getCmdConfig, printGeneratorHelper } from './helper';
 import { copyTo } from '../utils/copy-utils';
 
 const path = require('path');
