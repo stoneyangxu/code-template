@@ -5,7 +5,11 @@ import { copyTo } from '../utils/copy-utils';
 
 const path = require('path');
 
-export default function (cmd, targetPath, params) {
+export function printCommands() {
+  printGeneratorHelper();
+}
+
+export function generator(cmd, targetPath, params) {
   const config = getCmdConfig(cmd);
 
   if (!config) {
