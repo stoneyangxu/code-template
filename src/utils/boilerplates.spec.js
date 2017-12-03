@@ -29,7 +29,7 @@ describe('boilerplates', () => {
   });
 
   it('should compile tempalte file and replace variables', () => {
-    const templateFile = './test/{{name}}.spec.mustache.js';
+    const templateFile = './test/{{name}}.spec.js';
     const data = { name: 'replaced_name' };
 
     const compiled = boilerplates.compile(templateFile, data);
@@ -38,7 +38,7 @@ describe('boilerplates', () => {
   });
 
   it('should compile tempalte file to specified file', () => {
-    const templateFile = './test/{{name}}.spec.mustache.js';
+    const templateFile = './test/{{name}}.spec.js';
     const data = { name: 'replaced_name' };
     const destFile = path.resolve(BASEPATH, './temp/test.spec.js');
 

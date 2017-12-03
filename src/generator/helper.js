@@ -14,28 +14,18 @@ export function getCmdConfig(cmd) {
   return cmdPaths.find(config => config.cmd === cmd);
 }
 
-export function parsePathAndName(pathAndName) {
-  if (!pathAndName.endsWith(path.sep)) {
-    return {
-      pathName: path.dirname(pathAndName),
-      fileName: path.basename(pathAndName),
-    };
-  }
-  return {
-    pathName: path.resolve(pathAndName),
-  };
-}
-
 export function buildPathAndName(config, targetPath) {
-  if (targetPath) {
-    const { pathName, fileName } = parsePathAndName(targetPath);
-    return {
-      pathName,
-      fileName: fileName || path.basename(config.templatePath),
-    };
+  let pathName = path.resolve('.');
+  let fileName = 'none';
+  if (targetPath && !targetPath.endsWith(path.sep)) {
+    pathName = path.dirname(targetPath);
+    fileName = path.basename(targetPath);
+  } else if (targetPath && targetPath.endsWith(path.sep)) {
+    pathName = targetPath;
+    fileName = path.basename(config.templatePath);
   }
   return {
-    pathName: path.resolve('.'),
-    fileName: path.basename(config.templatePath),
+    pathName: path.resolve(pathName),
+    fileName,
   };
 }

@@ -62,6 +62,7 @@ export function compileToFile(templateFile, data, targetFile) {
 
 function compileFile(file, data) {
   const newFilePath = replaceMustacheFileName(file, data);
+  console.log(`name is ${file}, data: ${JSON.stringify(data)}, replace: ${newFilePath}`)
   const compiled = compile(newFilePath, data);
   writeTo(newFilePath, compiled);
 }

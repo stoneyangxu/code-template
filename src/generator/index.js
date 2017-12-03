@@ -3,7 +3,9 @@ import { info } from '../utils/log';
 import { getCmdConfig, buildPathAndName, printGeneratorHelper } from './helper';
 import { copyTo } from '../utils/copy-utils';
 
-export default function ([cmd, ...params]) {
+const path = require('path');
+
+export default function (cmd, targetPath, params) {
   const config = getCmdConfig(cmd);
 
   if (!config) {
@@ -11,15 +13,15 @@ export default function ([cmd, ...params]) {
     return;
   }
 
-  const { pathName, fileName } = buildPathAndName(config, params[0]);
+  const pathName = path.resolve(targetPath || '.');
+  const data = addSurfix({ name: params.name || 'None' });
 
-  info(`name: ${fileName}, target path: ${pathName}, template: ${config.templatePath}`);
+  info(`target path: ${pathName}`);
   // copy to target path
-  const target = copyTo(config.templatePath, pathName, fileName);
+  const target = copyTo(config.templatePath, pathName);
   if (!target) {
     return;
   }
 
-  const data = addSurfix({ name: fileName });
   warkSyncAndCompile(target, data);
 }

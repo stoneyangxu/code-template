@@ -8,7 +8,7 @@ const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
 const fse = require('fs-extra');
 
-const BASEPATH = path.resolve('.');
+const BASEPATH = path.resolve('./temp/');
 
 describe('copy-util', () => {
   describe('createPathIfNotExist', () => {
@@ -58,15 +58,6 @@ describe('copy-util', () => {
       const result = copyTo(source, destPath);
       result.should.equal(`${destPath}/sourceFile`);
       fs.existsSync(`${destPath}/sourceFile`).should.equal(true);
-      rimraf.sync(destPath);
-    });
-
-    it('should copy file with specified fileName', () => {
-      const destPath = path.resolve(BASEPATH, './temp/target/');
-
-      const result = copyTo(source, destPath, 'newFileName');
-      result.should.equal(`${destPath}/newFileName`);
-      fs.existsSync(`${destPath}/newFileName`).should.equal(true);
       rimraf.sync(destPath);
     });
   });

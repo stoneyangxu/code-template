@@ -10,27 +10,6 @@ describe('helper', () => {
     helper.printGeneratorHelper();
   });
 
-  it('should parse path and name from param', () => {
-    const { pathName, fileName } = helper.parsePathAndName('path/to/name');
-
-    pathName.should.equal('path/to');
-    fileName.should.equal('name');
-  });
-
-  it('should return only name', () => {
-    const { pathName, fileName } = helper.parsePathAndName('name');
-
-    pathName.should.equal('.');
-    fileName.should.equal('name');
-  });
-
-  it('should return only path', () => {
-    const { pathName, fileName } = helper.parsePathAndName('name/');
-
-    pathName.should.equal(path.resolve('name'));
-    (fileName === undefined).should.equal(true);
-  });
-
   it('should should get command config by name', () => {
     const config = helper.getCmdConfig(cmdTypes.EDITORCONFIG);
 
@@ -45,14 +24,22 @@ describe('helper', () => {
     const { pathName, fileName } = helper.buildPathAndName(config);
 
     pathName.should.equal(path.resolve('.'));
-    fileName.should.equal('.editorconfig');
+    fileName.should.equal('none');
   });
 
   it('should build path and name if only specified path', () => {
     const config = helper.getCmdConfig(cmdTypes.EDITORCONFIG);
-    const { pathName, fileName } = helper.buildPathAndName(config, 'name/');
+    const { pathName, fileName } = helper.buildPathAndName(config, 'path/');
 
-    pathName.should.equal(path.resolve('name'));
+    pathName.should.equal(path.resolve('path/'));
     fileName.should.equal('.editorconfig');
+  });
+
+  it('should build path and name if specified path with name', () => {
+    const config = helper.getCmdConfig(cmdTypes.EDITORCONFIG);
+    const { pathName, fileName } = helper.buildPathAndName(config, 'path/name');
+
+    pathName.should.equal(path.resolve('path/'));
+    fileName.should.equal('name');
   });
 });

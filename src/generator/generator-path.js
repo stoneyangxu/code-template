@@ -9,7 +9,7 @@ export default [
   },
   {
     cmd: types.TEST,
-    templatePath: buildPath('test/{{name}}.spec.mustache.js'),
+    templatePath: buildPath('test/{{name}}.spec.js'),
     desc: 'Test template with chai',
   },
   {
@@ -24,7 +24,7 @@ export default [
   },
   {
     cmd: types.REDUX_VIEW,
-    templatePath: buildPath('redux/{{name}}.mustache'),
+    templatePath: buildPath('redux/{{name}}'),
     desc: 'Redux views with action example',
   },
 ];

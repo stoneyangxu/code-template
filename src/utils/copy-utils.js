@@ -13,7 +13,7 @@ export function createPathIfNotExist(dir) {
   }
 }
 
-export function copyTo(source, destPath, fileName) {
+export function copyTo(source, destPath) {
   createPathIfNotExist(destPath);
 
   if (!fs.existsSync(source)) {
@@ -21,7 +21,7 @@ export function copyTo(source, destPath, fileName) {
     return source;
   }
 
-  const absolutePath = path.resolve(destPath, fileName || path.basename(source));
+  const absolutePath = path.resolve(destPath, path.basename(source));
 
   rimraf.sync(absolutePath);
 

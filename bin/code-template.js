@@ -7,11 +7,11 @@ const genEditorConfig = require('../lib/generator').default;
 
 program
   .usage('<command> [options]')
+  .option('-n, --name <n>', 'name')
+  .option('-v, --variable <key1=value1,key2=value2,key3=value3...>', 'custom variables')
   .on('--help', printHelp)
   .parse(process.argv);
 
-
-console.log(chalk.blue(JSON.stringify(program.args)));
 
 const argv = program.args;
 
@@ -21,7 +21,7 @@ if (argv.length < 2) {
 }
 
 if (argv[0] === 'g') {
-  genEditorConfig(argv.slice(1));
+  genEditorConfig(argv[1], argv[2], program);
 }
 
 function printHelp() {
